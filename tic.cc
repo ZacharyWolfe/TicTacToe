@@ -6,16 +6,19 @@ CREATE A TICTACTOE GAME THAT ALLOWS THE USER TO SELECT WHICH POSITION THEY WANT 
 SWAP BETWEEN PLAYER 1 AND PLAYER 2 TO LET THEM PLAY AGAINST EACHOTHER, WINNER WILL BE PRINTED.
 PRINT WHERE THE USER SELECTED ONTO THE NEW BOARD ALONG WITH THE OLD SELECTIONS.
 */
-
 #include <iostream>
 #include <vector>
 #include <string>
 #include <cctype>
 #include <ctime>
 #include <cstdlib>
-#include <sstream>
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::vector;
+using std::string;
+using std::to_string;
 
 //FUNCTIONS USED.
 bool redflag(vector< vector <string> > a, bool b, int input);
@@ -23,7 +26,7 @@ int winner(vector< vector <string> > a, bool b);
 int printboard(vector< vector<string> > a);
 bool tie(vector<string> a, vector< vector<string>> b);
 
-//GLOBAL VARIABLE FOR SUMMING FUNCTION TO TIE.
+//GLOBAL VARIABLE FOR TIE().
 int sum = 0;
 
 //STRINGS TO PRINT.
@@ -32,27 +35,29 @@ int main()
 {
     //PRINT WELCOME TO TIC-TAC-TOE.
     cout << print << endl;
-
     // VARIABLES && DECLARATIONS.
     int sum = 0;
     int selection;
     bool contains_element;
     bool player1 = true;
     int win;
+    //BOARD AND VECTOR FOR TIE.
     vector<string> tievector;
     vector<vector<string>> board = {{"1","2","3"},
                                     {"4","5","6"},
-                                    {"7","8","9"}};
-                                    
+                                    {"7","8","9"}};                          
     //PRINT FIRST ITERATION OF THE BOARD.
     printboard(board);
     cout << endl;
     do
     {   
+        //PLAYER1 WILL ALWAYS GO FIRST.
         while (player1)
-            {                
+            {         
+                //CHECKING EACH INSTANCE FOR A WIN ON THE BOARD.
                 if (win == 1 || win == 2)
                     {
+                        //IF TRUE, CHECK WHICH PLAYER HAS WON THE GAME BY THE RETURN VALUE OF WIN().
                         if (win == 1)
                         {
                             cout << "The game has been won by Player1. \"X\" \n" << endl;
@@ -65,22 +70,28 @@ int main()
                         }                        
                         
                     }
+                    //IF NO WINNER YET.
                     else
                         {
+                            //PLAYER1 ENTER SELECTION ON THE BOARD.
                             cout << "\nPlayer1, enter your selection on the board: ";
                             cin >> selection;
                             if (redflag(board, contains_element, selection))
                                 {
+                                    //IF FLAG() DETERMINES THAT YOU HAVE NOT ENTERED A SPOT ON THE BOARD || THE SPOT IS TAKEN.
+                                    //THEN CONTINUE TO THE PLAYER THATIS MAKING THE MOVE, AND RE-ENTER VALUE.
                                     cout << "False input, please enter another value. ";
                                     continue;
                                 }
+                            //CHECKING ITERATION FOR A TIE (COMPARES THE SIZE OF THE BOARD AND A VECTOR WITH USER(S) ENTRIES, IF SAME SIZE THEN THERE MUST BE A TIE.)
                             if (tie(tievector, board))
                             {
-                                cout << "TIE" << endl;
+                                cout << "TIE, neither player has won the game." << endl;
                                 exit(1);
                             }
                                 else
                                 {
+                                    //FOR WHICHEVER SELECTION THE PLAYER MADE, PLACE AN "X" (FOR PLAYER1).
                                     string x = "X";
                                     switch (selection)
                                     {
@@ -123,16 +134,22 @@ int main()
                                     default:
                                         break;
                                     }
-                                    win = winner(board, win); 
+                                    //CHECK IF WIN BEFORE RETURNING TO BEGINNING OF FUNCTION.
+                                    win = winner(board, win);
+                                    //ADD TO TIE VECTOR FOR TIE().
                                     tievector.push_back(to_string(selection)); 
+                                    //PLAYER1 TURN IS OVER.
                                     player1 = false;
                                 }
                     }    
             }
+        //WHILE PLAYER2
         while (!player1)
             {
+                //CHECKING EACH INSTANCE FOR A WIN ON THE BOARD.
                 if (win == 1 || win == 2)
                     {
+                        //IF TRUE, CHECK WHICH PLAYER HAS WON THE GAME BY THE RETURN VALUE OF WIN().
                         if (win == 1)
                         {
                             cout << "The game has been won by Player1. \"X\" \n" << endl;
@@ -145,23 +162,29 @@ int main()
                         }                        
                         
                     }
+                    //IF NO WINNER YET.
                     else
                         { 
+                            //PLAYER1 ENTER SELECTION ON THE BOARD.
                             cout << "\nPlayer2, enter your selection on the board: ";
                             cin >> selection;
                             string o = "O";
                             if (redflag(board, contains_element, selection))
                                 {
+                                    //IF FLAG() DETERMINES THAT YOU HAVE NOT ENTERED A SPOT ON THE BOARD || THE SPOT IS TAKEN.
+                                    //THEN CONTINUE TO THE PLAYER THATIS MAKING THE MOVE, AND RE-ENTER VALUE.
                                     cout << "False input, please enter another value. ";
                                     continue;
                                 }
+                            //CHECKING ITERATION FOR A TIE (COMPARES THE SIZE OF THE BOARD AND A VECTOR WITH USER(S) ENTRIES, IF SAME SIZE THEN THERE MUST BE A TIE.)
                             if (tie(tievector, board))
                             {
-                                cout << "TIE" << endl;
+                                cout << "TIE, neither player has won the game." << endl;
                                 exit(1);
                             }              
                                 else
                                 {
+                                    //FOR WHICHEVER SELECTION THE PLAYER MADE, PLACE AN "X" (FOR PLAYER1).
                                     switch (selection)
                                     {
                                         case 1:
@@ -203,8 +226,11 @@ int main()
                                         default:
                                             break;
                                     }
+                                    //CHECK IF WIN BEFORE RETURNING TO BEGINNING OF FUNCTION.
                                     win = winner(board, win);
+                                    //ADD TO TIE VECTOR FOR TIE().
                                     tievector.push_back(to_string(selection));   
+                                    //PLAYER1 TURN IS OVER.
                                     player1 = true;    
                                 }                                             
                     }
@@ -214,6 +240,8 @@ int main()
 }
 bool redflag(vector<vector<string>> a, bool b, int input)
 {   
+    //FOR WHICHEVER SELECTION, IF THERE IS SUCH VALUE AT SAID SPOT.
+    //THEN THERE CANNOT BE A TURN PLACED ON SPOT OF SELECTION.
     string value;
     switch (input)
     {
@@ -335,14 +363,15 @@ int winner(vector< vector <string>> a, bool b)
             return 2;
         }
     
-    //IF NONE JUST RETURN FALSE BECAUSE THERE IS NO WINNING COMBINATIONS ON BOARD.
+    //IF NO COMBINATION RETURN FALSE BECAUSE, ON INSTANCE OF CALL TO FUNCTION THERE ARE NO WINNING COMBINATIONS ON BOARD.
     return false;
 }
 bool tie(vector<string> a, vector< vector<string>> b)
 {
     int sumadd = 0;
     //FOR THE SIZE OF THE 2D VECTOR, GO THROUGH THE ROWS AND COLUMS, THEN ADD THE SIZE OF THEM TO SUM.
-    //IF THE LENGTH OF THE VECTOR == 81 (ALL POSSIBLE SUMS FOR COMBINATIONS ON BOARD HAVE BEEN USED), THEN THERE IS A TIE BECAUSE FUNCTION WIN RUNS WITH EACH ITERATION OF WHILE LOOP.
+    //IF THE LENGTH OF THE VECTOR == 81 (ALL POSSIBLE SUMS FOR THE COMBINATIONS ON THE BOARD HAVE BEEN USED).
+    //THEN THERE MUST BE A TIE ITERATION BECAUSE, WIN() RUNS WITH EACH ITERATION OF LOOP.
     for (int i = 0; i < b.size(); i++)
         {
             sumadd = b.at(i).size();
