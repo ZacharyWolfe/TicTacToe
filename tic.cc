@@ -1,11 +1,22 @@
 /*
 AUTHOR: ZACHARY WOLFE
 DATE: 9/30/2022
+
 PURPOSE: 
-CREATE A TICTACTOE GAME THAT ALLOWS THE USER TO SELECT WHICH POSITION THEY WANT ON THE BOARD.
-SWAP BETWEEN PLAYER 1 AND PLAYER 2 TO LET THEM PLAY AGAINST EACHOTHER, WINNER WILL BE PRINTED.
-PRINT WHERE THE USER SELECTED ONTO THE NEW BOARD ALONG WITH THE OLD SELECTIONS.
+            Implement knowledge based on tictactoe winner logic.
+
+            Select a position on the newest iteration of the board that is not already taken.
+                if said position on board is taken, return a flag that will re-prompt the user 
+                to enter another value.
+
+            Print to the terminal the correct piece ("X" "O") based on the turn of the player.
+
+            Print to the terminal which player won the game.
+
+            -Will need to check each iteration of the board for a tie.
+
 */
+
 #include <iostream>
 #include <vector>
 #include <string>
