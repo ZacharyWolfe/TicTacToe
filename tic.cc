@@ -13,12 +13,7 @@ PRINT WHERE THE USER SELECTED ONTO THE NEW BOARD ALONG WITH THE OLD SELECTIONS.
 #include <ctime>
 #include <cstdlib>
 
-using std::cout;
-using std::cin;
-using std::endl;
-using std::vector;
-using std::string;
-using std::to_string;
+using namespace std;
 
 //FUNCTIONS USED.
 bool redflag(vector< vector <string> > a, bool b, int input);
